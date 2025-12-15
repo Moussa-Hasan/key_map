@@ -306,6 +306,19 @@ namespace LangFlip
 
         private static string? CopySelectionWithRetry()
         {
+            string? originalClipboard = null;
+            try
+            {
+                if (Clipboard.ContainsText())
+                {
+                    originalClipboard = Clipboard.GetText();
+                }
+            }
+            catch
+            {
+                // If we can't read the clipboard, continue anyway
+            }
+
             string? last = null;
 
             for (int attempt = 1; attempt <= 3; attempt++)
@@ -323,13 +336,19 @@ namespace LangFlip
 
                 last = ReadClipboardWithPoll();
 
+                // Only return if something was selected
                 if (!string.IsNullOrEmpty(last) && last!.Length > 1)
                 {
-                    return last;
+                    // Check if the clipboard content is different from what we saved
+                    if (last != originalClipboard)
+                    {
+                        return last;
+                    }
                 }
             }
 
-            return last;
+            // return null if nothing was selected
+            return null;
         }
 
         private static string? ReadClipboardWithPoll()
