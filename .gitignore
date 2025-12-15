@@ -1,0 +1,45 @@
+## Build artifacts
+bin/
+obj/
+
+# Debugging
+.cursor/
+
+## Visual Studio / VS Build
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Rider / ReSharper
+.idea/
+*.DotSettings.user
+
+## Visual Studio Code
+.vscode/
+
+## NuGet
+*.nupkg
+*.snupkg
+packages/
+project.lock.json
+artifacts/
+
+## Logs
+*.log
+logs/
+
+## OS-specific
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+## Other common temporary files
+*.temp
+*.tmp
+*.bak
+*.old
+
+
