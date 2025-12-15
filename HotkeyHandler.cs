@@ -7,13 +7,10 @@ namespace LangFlip
         private const int WM_HOTKEY = 0x0312;
         private const int HOTKEY_ID = 9000;
 
-        private const uint MOD_CONTROL = 0x0002;
-        private const uint MOD_SHIFT = 0x0004;
-
-        private const uint VK_Q = 0x51;
-
         private IntPtr _windowHandle;
         private bool _disposed = false;
+        private uint _modifiers;
+        private uint _virtualKey;
 
         [DllImport("user32.dll")]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
@@ -23,11 +20,25 @@ namespace LangFlip
 
         public event EventHandler? HotkeyPressed;
 
-        public HotkeyHandler(IntPtr windowHandle)
+        public HotkeyHandler(IntPtr windowHandle, HotkeySettings settings)
         {
             _windowHandle = windowHandle;
+            _modifiers = settings.GetModifiers();
+            _virtualKey = settings.VirtualKey;
 
-            if (!RegisterHotKey(_windowHandle, HOTKEY_ID, MOD_CONTROL | MOD_SHIFT, VK_Q))
+            if (!RegisterHotKey(_windowHandle, HOTKEY_ID, _modifiers, _virtualKey))
+            {
+                throw new InvalidOperationException("Failed to register hotkey. It may already be in use.");
+            }
+        }
+
+        public void UpdateHotkey(HotkeySettings settings)
+        {
+            UnregisterHotKey(_windowHandle, HOTKEY_ID);
+            _modifiers = settings.GetModifiers();
+            _virtualKey = settings.VirtualKey;
+
+            if (!RegisterHotKey(_windowHandle, HOTKEY_ID, _modifiers, _virtualKey))
             {
                 throw new InvalidOperationException("Failed to register hotkey. It may already be in use.");
             }

@@ -7,10 +7,12 @@ namespace LangFlip
         private NotifyIcon? _trayIcon;
         private ContextMenuStrip? _trayMenu;
         private HotkeyHandler? _hotkeyHandler;
+        private HotkeySettings _settings;
         private static readonly Lazy<Icon> _embeddedIcon = new(CreateEmbeddedIcon);
 
         public MainForm()
         {
+            _settings = Settings.Load();
             InitializeComponent();
             InitializeHotkey();
         }
@@ -24,29 +26,67 @@ namespace LangFlip
             Size = new Size(0, 0);
 
             _trayMenu = new ContextMenuStrip();
+            _trayMenu.Items.Add("Change Shortcut", null, OnChangeShortcut);
+            _trayMenu.Items.Add("-"); // Separator
             _trayMenu.Items.Add("Exit", null, OnExit);
 
             _trayIcon = new NotifyIcon
             {
                 Icon = _embeddedIcon.Value,
                 ContextMenuStrip = _trayMenu,
-                Text = "LangFlip active (Ctrl+Shift+Q)",
+                Text = "LangFlip active",
                 Visible = true
             };
+
+            UpdateTrayIconText();
         }
 
         private void InitializeHotkey()
         {
             try
             {
-                _hotkeyHandler = new HotkeyHandler(Handle);
+                _hotkeyHandler = new HotkeyHandler(Handle, _settings);
                 _hotkeyHandler.HotkeyPressed += OnHotkeyPressed;
+                UpdateTrayIconText();
             }
             catch (InvalidOperationException ex)
             {
                 MessageBox.Show($"Failed to register hotkey: {ex.Message}\n\nThe application will exit.",
                     "LangFlip Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
+            }
+        }
+
+        private void UpdateTrayIconText()
+        {
+            if (_trayIcon != null)
+            {
+                _trayIcon.Text = $"LangFlip active ({_settings.GetDisplayString()})";
+            }
+        }
+
+        private void OnChangeShortcut(object? sender, EventArgs e)
+        {
+            using var form = new HotkeySettingsForm(_settings);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                _settings = form.Settings;
+                Settings.Save(_settings);
+
+                try
+                {
+                    _hotkeyHandler?.UpdateHotkey(_settings);
+                    UpdateTrayIconText();
+                    MessageBox.Show($"Shortcut changed to: {_settings.GetDisplayString()}",
+                        "Shortcut Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    MessageBox.Show($"Failed to register new hotkey: {ex.Message}\n\nPlease try a different combination.",
+                        "LangFlip Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // Revert to previous settings
+                    _settings = Settings.Load();
+                }
             }
         }
 
