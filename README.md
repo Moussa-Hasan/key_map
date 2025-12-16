@@ -11,7 +11,12 @@ It does **keyboard layout mapping only** (QWERTY ↔ Arabic 101) – no translat
 - **Latest builds**: see the [Releases page](../../releases) on GitHub.
 - If you only see a **pre-release**, it is an early test build but is safe to try.
 
-After downloading `LangFlip.exe` from a release:
+On each release page, look at the **Assets** section at the bottom. You will usually see two options:
+
+- `LangFlip.exe` – download this if you just want the single executable.
+- A `.zip` file (for example `LangFlip-v0.1.0-win-x64.zip`) – this archive contains the same `LangFlip.exe` inside it.
+
+After downloading `LangFlip.exe` (either directly, or by extracting it from the `.zip`):
 
 - Place it in any folder (for example: `C:\Program Files\LangFlip` or your user folder).
 - Double-click `LangFlip.exe` to run it; a tray icon will appear.
