@@ -5,14 +5,15 @@ namespace LangFlip
 {
     internal class HotkeySettingsForm : Form
     {
-        private CheckBox _chkCtrl;
-        private CheckBox _chkShift;
-        private CheckBox _chkAlt;
-        private CheckBox _chkWin;
-        private ComboBox _cmbKey;
-        private Button _btnOK;
-        private Button _btnCancel;
-        private Label _lblPreview;
+        // use null-forgiving to satisfy nullable analysis.
+        private CheckBox _chkCtrl = null!;
+        private CheckBox _chkShift = null!;
+        private CheckBox _chkAlt = null!;
+        private CheckBox _chkWin = null!;
+        private ComboBox _cmbKey = null!;
+        private Button _btnOK = null!;
+        private Button _btnCancel = null!;
+        private Label _lblPreview = null!;
 
         public HotkeySettings Settings { get; private set; }
 

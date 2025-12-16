@@ -4,11 +4,12 @@ namespace LangFlip
 {
     internal class HotkeySettings
     {
-        public bool UseCtrl { get; set; } = true;
+        // Default shortcut: Shift + Win + E
+        public bool UseCtrl { get; set; } = false;
         public bool UseShift { get; set; } = true;
         public bool UseAlt { get; set; } = false;
-        public bool UseWin { get; set; } = false;
-        public uint VirtualKey { get; set; } = 0x51; // VK_Q
+        public bool UseWin { get; set; } = true;
+        public uint VirtualKey { get; set; } = 0x45; // VK_E
 
         public static HotkeySettings Default => new();
 
