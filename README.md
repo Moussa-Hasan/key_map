@@ -6,6 +6,18 @@ It does **keyboard layout mapping only** (QWERTY ↔ Arabic 101) – no translat
 
 ---
 
+### Download
+
+- **Latest builds**: see the [Releases page](../../releases) on GitHub.
+- If you only see a **pre-release**, it is an early test build but is safe to try.
+
+After downloading `LangFlip.exe` from a release:
+
+- Place it in any folder (for example: `C:\Program Files\LangFlip` or your user folder).
+- Double-click `LangFlip.exe` to run it; a tray icon will appear.
+
+---
+
 ### What it does
 
 - **Global hotkey**: **Shift + Win + E**
