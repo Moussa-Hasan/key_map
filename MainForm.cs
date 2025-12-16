@@ -6,6 +6,7 @@ namespace LangFlip
     {
         private NotifyIcon? _trayIcon;
         private ContextMenuStrip? _trayMenu;
+        private ToolStripMenuItem? _startupMenuItem;
         private HotkeyHandler? _hotkeyHandler;
         private HotkeySettings _settings;
         private static readonly Lazy<Icon> _embeddedIcon = new(CreateEmbeddedIcon);
@@ -27,6 +28,15 @@ namespace LangFlip
 
             _trayMenu = new ContextMenuStrip();
             _trayMenu.Items.Add("Change Shortcut", null, OnChangeShortcut);
+            
+            _startupMenuItem = new ToolStripMenuItem("Start with Windows")
+            {
+                CheckOnClick = true,
+                Checked = StartupManager.IsRegistered()
+            };
+            _startupMenuItem.Click += OnToggleStartup;
+            _trayMenu.Items.Add(_startupMenuItem);
+            
             _trayMenu.Items.Add("-"); // Separator
             _trayMenu.Items.Add("Exit", null, OnExit);
 
@@ -86,6 +96,38 @@ namespace LangFlip
                         "LangFlip Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     // Revert to previous settings
                     _settings = Settings.Load();
+                }
+            }
+        }
+
+        private void OnToggleStartup(object? sender, EventArgs e)
+        {
+            if (_startupMenuItem == null)
+            {
+                return;
+            }
+
+            bool shouldBeEnabled = _startupMenuItem.Checked;
+            bool success = false;
+
+            if (shouldBeEnabled)
+            {
+                success = StartupManager.Register();
+                if (!success)
+                {
+                    _startupMenuItem.Checked = false;
+                    MessageBox.Show("Failed to enable startup with Windows. Please try again or check your permissions.",
+                        "Startup Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                success = StartupManager.Unregister();
+                if (!success)
+                {
+                    _startupMenuItem.Checked = true;
+                    MessageBox.Show("Failed to disable startup with Windows. Please try again or check your permissions.",
+                        "Startup Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
