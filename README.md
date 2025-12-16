@@ -8,7 +8,7 @@ It does **keyboard layout mapping only** (QWERTY ↔ Arabic 101) – no translat
 
 ### What it does
 
-- **Global hotkey**: **Ctrl + Shift + Q**
+- **Global hotkey**: **Shift + Win + E**
 - When you press it, LangFlip:
   1. Selects all text in the active control.
   2. Copies the text to the clipboard.
@@ -25,7 +25,7 @@ It does **keyboard layout mapping only** (QWERTY ↔ Arabic 101) – no translat
 
 1. Open any text field (Notepad, editor, browser input, chat, etc.).
 2. Type as usual. If you realize you typed with the wrong layout:
-3. Press **Ctrl + Shift + Q**.
+3. Press **Shift + Win + E**.
 4. The text flips between English and Arabic, and Windows usually toggles the active keyboard layout.
 
 If clipboard access fails or the app cannot read the selection, it simply returns without showing a dialog.
@@ -94,7 +94,7 @@ To quit, right‑click the tray icon → **Exit**.
 
 - **Nothing happens when I press the hotkey**:
   - Make sure LangFlip is running and visible in the tray.
-  - Check that another app is not already using **Ctrl + Shift + Q** as a global shortcut.
+  - Check that another app is not already using **Shift + Win + E** as a global shortcut.
 - **It works in some apps but not others**:
   - Some apps block simulated key presses or clipboard access; LangFlip cannot work around that.
 - **My keyboard layout is not Arabic 101**:
