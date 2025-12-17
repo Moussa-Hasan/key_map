@@ -14,7 +14,7 @@ It does **keyboard layout mapping only** (QWERTY ↔ Arabic 101) – no translat
 On each release page, look at the **Assets** section at the bottom. You will usually see two options:
 
 - `LangFlip.exe` – download this if you just want the single executable.
-- A `.zip` file (for example `LangFlip-v0.1.0-win-x64.zip`) – this archive contains the same `LangFlip.exe` inside it.
+- A `.zip` file (for example `LangFlip-v0.2.0-win-x64.zip`) – this archive contains the same `LangFlip.exe` inside it.
 
 After downloading `LangFlip.exe` (either directly, or by extracting it from the `.zip`):
 
