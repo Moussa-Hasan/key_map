@@ -81,7 +81,7 @@ Right‑click the icon → **Exit** to quit the app.
 To build a trimmed portable executable for sharing:
 
 ```powershell
-    dotnet publish LangFlip.csproj -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true
+dotnet publish LangFlip.csproj -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -p:IncludeAllContentForSelfExtract=true
 ```
 
 The main binary will land under:
