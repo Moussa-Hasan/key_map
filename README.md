@@ -70,7 +70,7 @@ dotnet build LangFlip.csproj
 
 You should see a tray icon with the tooltip:
 
-> LangFlip active (Ctrl+Shift+Q)
+> LangFlip active (Shift+Win+E)
 
 Right‑click the icon → **Exit** to quit the app.
 
@@ -98,7 +98,7 @@ You can drop `LangFlip.exe` (and optionally `LangFlip.ico`) onto any .NET 8 capa
 - Double‑click `LangFlip.exe`.
 - Look for the tray icon; hover it to confirm the tooltip:
 
-> LangFlip active (Ctrl+Shift+Q)
+> LangFlip active (Shift+Win+E)
 
 To quit, right‑click the tray icon → **Exit**.
 
