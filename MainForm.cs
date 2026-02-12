@@ -16,6 +16,7 @@ namespace LangFlip
             _settings = Settings.Load();
             InitializeComponent();
             InitializeHotkey();
+            EnsureStartupRegistered();
         }
 
         private void InitializeComponent()
@@ -72,6 +73,28 @@ namespace LangFlip
             if (_trayIcon != null)
             {
                 _trayIcon.Text = $"LangFlip active ({_settings.GetDisplayString()})";
+            }
+        }
+
+        private void EnsureStartupRegistered()
+        {
+            // Enable startup by default on first run
+            try
+            {
+                if (!StartupManager.IsRegistered())
+                {
+                    StartupManager.Register();
+
+                    if (_startupMenuItem != null)
+                    {
+                        _startupMenuItem.Checked = StartupManager.IsRegistered();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Silently log failure, don't show error to user
+                System.Diagnostics.Debug.WriteLine($"Failed to register startup on first run: {ex.Message}");
             }
         }
 
