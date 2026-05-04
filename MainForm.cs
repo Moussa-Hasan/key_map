@@ -7,6 +7,7 @@ namespace LangFlip
         private NotifyIcon? _trayIcon;
         private ContextMenuStrip? _trayMenu;
         private ToolStripMenuItem? _startupMenuItem;
+        private ToolStripMenuItem? _notificationMenuItem;
         private HotkeyHandler? _hotkeyHandler;
         private HotkeySettings _settings;
         private static readonly Lazy<Icon> _embeddedIcon = new(CreateEmbeddedIcon);
@@ -37,6 +38,14 @@ namespace LangFlip
             };
             _startupMenuItem.Click += OnToggleStartup;
             _trayMenu.Items.Add(_startupMenuItem);
+
+            _notificationMenuItem = new ToolStripMenuItem("Show Conversion Notifications")
+            {
+                CheckOnClick = true,
+                Checked = _settings.ShowConversionNotification
+            };
+            _notificationMenuItem.Click += OnToggleNotifications;
+            _trayMenu.Items.Add(_notificationMenuItem);
             
             _trayMenu.Items.Add("-"); // Separator
             _trayMenu.Items.Add("Exit", null, OnExit);
@@ -155,6 +164,17 @@ namespace LangFlip
             }
         }
 
+        private void OnToggleNotifications(object? sender, EventArgs e)
+        {
+            if (_notificationMenuItem == null)
+            {
+                return;
+            }
+
+            _settings.ShowConversionNotification = _notificationMenuItem.Checked;
+            Settings.Save(_settings);
+        }
+
         protected override void WndProc(ref Message m)
         {
             base.WndProc(ref m);
@@ -215,6 +235,14 @@ namespace LangFlip
             Thread.Sleep(200);
 
             LanguageSwitch.SwitchLanguage();
+
+            // Show conversion notification if enabled
+            if (_settings.ShowConversionNotification && _trayIcon != null)
+            {
+                string direction = convertToArabic ? "EN → AR" : "AR → EN";
+                string message = $"Converted {direction}";
+                _trayIcon.ShowBalloonTip(2000, "LangFlip", message, ToolTipIcon.Info);
+            }
         }
 
         private void OnExit(object? sender, EventArgs e)

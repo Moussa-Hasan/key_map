@@ -11,6 +11,9 @@ namespace LangFlip
         public bool UseWin { get; set; } = false;
         public uint VirtualKey { get; set; } = 0x45; // VK_E
 
+        // Notification settings
+        public bool ShowConversionNotification { get; set; } = false;
+
         public static HotkeySettings Default => new();
 
         public string GetDisplayString()
